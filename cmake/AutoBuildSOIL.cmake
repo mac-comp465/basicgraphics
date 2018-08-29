@@ -49,6 +49,11 @@ macro(AutoBuild_use_package_SOIL YOUR_TARGET INTERFACE_PUBLIC_OR_PRIVATE)
         message(STATUS "Linking target ${YOUR_TARGET} with ${INTERFACE_PUBLIC_OR_PRIVATE} dependency ${PACKAGE_NAME}.")
 
         target_link_libraries(${YOUR_TARGET} ${INTERFACE_PUBLIC_OR_PRIVATE} ${SOIL_LIBRARIES})
+
+        if(APPLE)
+            target_link_libraries(${YOUR_TARGET} ${INTERFACE_PUBLIC_OR_PRIVATE} ${CORE_FOUNDATION_FRAMEWORK})
+        endif()
+
         target_include_directories(${YOUR_TARGET} ${INTERFACE_PUBLIC_OR_PRIVATE} ${SOIL_INCLUDE_DIR})
 
         target_compile_definitions(${YOUR_TARGET} ${INTERFACE_PUBLIC_OR_PRIVATE} -DUSE_${PACKAGE_NAME})

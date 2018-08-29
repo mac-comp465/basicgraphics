@@ -68,14 +68,14 @@ namespace basicgraphics {
 
 		std::unique_ptr<Assimp::Importer> _importer;
 		std::unique_ptr<ProgressReporter> _reporter;
-		std::vector< std::unique_ptr<Mesh> > _meshes;
+		std::vector< std::shared_ptr<Mesh> > _meshes;
 		std::vector< std::shared_ptr<Texture> > _textures;
 
 		void importMesh(const std::string &filename, int &numIndices, const double scale);
 		void importMeshFromString(const std::string &fileContents);
 		void processNode(aiNode* node, const aiScene* scene, const glm::mat4 scaleMat);
-		std::unique_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat);
-		std::vector<std::shared_ptr<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
+		std::shared_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat);
+		std::vector<std::shared_ptr<Texture> > loadMaterialTextures(aiMaterial* mat, aiTextureType type);
 	};
 
 }

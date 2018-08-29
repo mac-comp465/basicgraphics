@@ -213,8 +213,9 @@ namespace basicgraphics {
 
 	bool Texture::isOpaque() const
 	{
-		if (_internalFormat == GL_LUMINANCE_ALPHA ||
-			_internalFormat == GL_LUMINANCE8_ALPHA8 ||
+		if (
+            //_internalFormat == GL_LUMINANCE_ALPHA ||
+			//_internalFormat == GL_LUMINANCE8_ALPHA8 ||
 			_internalFormat == GL_RGBA ||
 			_internalFormat == GL_RGBA2 ||
 			_internalFormat == GL_RGBA4 ||
@@ -364,13 +365,15 @@ namespace basicgraphics {
 
 			GLenum faceInternalFormat = 0;
 			switch (channels) {
-			case 1:
+			/*
+            case 1:
 				faceInternalFormat = GL_LUMINANCE8;
 				break;
 
 			case 2:
 				faceInternalFormat = GL_LUMINANCE8_ALPHA8;
-
+                break;
+            */
 			case 3:
 				faceInternalFormat = GL_RGB8;
 				break;
@@ -484,13 +487,15 @@ namespace basicgraphics {
 		GLenum internalFormat = 0;
 
 		switch (channels) {
-		case 1:
+		/*
+        case 1:
 			internalFormat = GL_LUMINANCE8;
 			break;
 
 		case 2:
 			internalFormat = GL_LUMINANCE8_ALPHA8;
-
+            break;
+        */
 		case 3:
 			internalFormat = GL_RGB8;
 			break;
@@ -625,6 +630,7 @@ namespace basicgraphics {
 	{
 		switch (internalType)
 		{
+        /*
 		case GL_LUMINANCE:
 			return GL_UNSIGNED_BYTE;
 		case GL_LUMINANCE8:
@@ -633,6 +639,7 @@ namespace basicgraphics {
 			return GL_UNSIGNED_SHORT;
 		case GL_LUMINANCE8_ALPHA8:
 			return GL_UNSIGNED_BYTE;
+        */
 		case GL_RGBA:
 			return GL_UNSIGNED_BYTE;
 		case GL_RGB8:
@@ -655,6 +662,7 @@ namespace basicgraphics {
 	{
 		switch (internalType)
 		{
+        /*
 		case GL_LUMINANCE:
 		case GL_LUMINANCE8:
 		case GL_LUMINANCE16:
@@ -664,7 +672,8 @@ namespace basicgraphics {
 		case GL_LUMINANCE_ALPHA:
 		case GL_LUMINANCE8_ALPHA8:
 			return GL_LUMINANCE_ALPHA;
-
+         
+        */
 		case GL_RGB:
 		case GL_RGB8:
 		case GL_RGB32F:

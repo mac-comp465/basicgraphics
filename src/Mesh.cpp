@@ -10,7 +10,7 @@
 
 namespace basicgraphics {
 
-	Mesh::Mesh(std::vector<std::shared_ptr<Texture>> textures, GLenum primitiveType, GLenum usage, int allocateVertexByteSize, int allocateIndexByteSize, int vertexOffset, const std::vector<Vertex> &data, int numIndices /*=0*/, int indexByteSize/*=0*/, int* index/*=nullptr*/)
+	Mesh::Mesh(std::vector<std::shared_ptr<Texture> > textures, GLenum primitiveType, GLenum usage, int allocateVertexByteSize, int allocateIndexByteSize, int vertexOffset, const std::vector<Vertex> &data, int numIndices /*=0*/, int indexByteSize/*=0*/, int* index/*=nullptr*/)
 	{
 		_textures = textures;
 

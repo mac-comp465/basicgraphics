@@ -38,6 +38,7 @@
 #include "Texture.h"
 #include "GLSLProgram.h"
 #include <Vector>
+#include <Memory>
 
 namespace basicgraphics {
 
@@ -54,7 +55,7 @@ namespace basicgraphics {
 
 
 		// Creates a vao and vbo. Usage should be GL_STATIC_DRAW, GL_DYNAMIC_DRAW, etc. Leave data empty to just allocate but not upload.
-		Mesh(std::vector<std::shared_ptr<Texture>> textures, GLenum primitiveType, GLenum usage, int allocateVertexByteSize, int allocateIndexByteSize, int vertexOffset, const std::vector<Vertex> &data, int numIndices = 0, int indexByteSize = 0, int* index = nullptr);
+		Mesh(std::vector<std::shared_ptr<Texture> > textures, GLenum primitiveType, GLenum usage, int allocateVertexByteSize, int allocateIndexByteSize, int vertexOffset, const std::vector<Vertex> &data, int numIndices = 0, int indexByteSize = 0, int* index = nullptr);
 		virtual ~Mesh();
 
 		virtual void draw(GLSLProgram &shader);
@@ -89,7 +90,7 @@ namespace basicgraphics {
 
 		glm::vec4 _materialColor;
 
-		std::vector<std::shared_ptr<Texture>> _textures;
+		std::vector<std::shared_ptr<Texture> > _textures;
 	};
 
 }

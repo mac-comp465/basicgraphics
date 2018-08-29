@@ -47,6 +47,10 @@ endif()
 set(SOIL_LIBRARIES ${SOIL_LIBRARY})
 set( SOIL_INCLUDE_DIRS "${SOIL_INCLUDE_DIR}")
 
+if(APPLE)
+    find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+endif()
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
     SOIL

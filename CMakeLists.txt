@@ -84,9 +84,9 @@ AutoBuild_use_package_OpenGL(${PROJECT_NAME} PUBLIC)
 
 
 # GLM
-AutoBuild_use_package(glm . ${PROJECT_NAME} PUBLIC glm
-    DOWNLOAD_ARGS  GIT_REPOSITORY "https://github.com/g-truc/glm.git" GIT_TAG master
-)
+#AutoBuild_use_package(glm . ${PROJECT_NAME} PUBLIC glm
+#    DOWNLOAD_ARGS  GIT_REPOSITORY "https://github.com/g-truc/glm.git" GIT_TAG master #BUILD_AND_INSTALL_ARGS -DGLM_TEST_ENABLE=OFF
+#)
 
 # GLEW
 if (NOT APPLE)
@@ -113,11 +113,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DEST}>        # for client in install mode
 )
 
-#target_include_directories(${PROJECT_NAME} PUBLIC
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/glad/include>  # for headers when building
-#    $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DEST}>/glad        # for client in install mode
-#	$<INSTALL_INTERFACE:${INSTALL_INCLUDE_DEST}>/KHR
-#)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/glm>  # for headers when building
+    $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DEST}/glm>        # for client in install mode
+)
 
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets COMPONENT CoreLib
@@ -127,7 +126,7 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets COMPONENT CoreLib
 )
 
 install(FILES ${header_files} DESTINATION ${INSTALL_INCLUDE_DEST} COMPONENT CoreLib)
-#install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/glad/include/glad DESTINATION ${INSTALL_INCLUDE_DEST} COMPONENT CoreLib)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/glm DESTINATION ${INSTALL_INCLUDE_DEST} COMPONENT CoreLib)
 #install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/glad/include/KHR DESTINATION ${INSTALL_INCLUDE_DEST} COMPONENT CoreLib)
 
 if (WIN32)

@@ -136,12 +136,12 @@ namespace basicgraphics {
 
 	}
 
-	std::unique_ptr<Mesh> Model::processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat)
+	std::shared_ptr<Mesh> Model::processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat)
 	{
 		// Data to fill
 		std::vector<Mesh::Vertex> cpuVertexArray;
 		std::vector<int>			 cpuIndexArray;
-		std::vector<std::shared_ptr<Texture>> textures;
+		std::vector<std::shared_ptr<Texture>  > textures;
 
 		// Walk through each of the mesh's vertices
 		for (GLuint i = 0; i < mesh->mNumVertices; i++)
@@ -191,7 +191,7 @@ namespace basicgraphics {
 			// Specular: texture_specularN
 			// Normal: texture_normalN
 
-			std::vector<std::shared_ptr<Texture>> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE);
+			std::vector<std::shared_ptr<Texture> > diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE);
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 		}
@@ -199,16 +199,16 @@ namespace basicgraphics {
 		const int numVertices = cpuVertexArray.size();
 		const int cpuVertexByteSize = sizeof(Mesh::Vertex) * numVertices;
 		const int cpuIndexByteSize = sizeof(int) * cpuIndexArray.size();
-		std::unique_ptr<Mesh> gpuMesh(new Mesh(textures, GL_TRIANGLES, GL_STATIC_DRAW, cpuVertexByteSize, cpuIndexByteSize, 0, cpuVertexArray, cpuIndexArray.size(), cpuIndexByteSize, &cpuIndexArray[0]));
+		std::shared_ptr<Mesh> gpuMesh(new Mesh(textures, GL_TRIANGLES, GL_STATIC_DRAW, cpuVertexByteSize, cpuIndexByteSize, 0, cpuVertexArray, cpuIndexArray.size(), cpuIndexByteSize, &cpuIndexArray[0]));
 		gpuMesh->setMaterialColor(_materialColor);
 		return gpuMesh;
 	}
 
 	// Checks all material textures of a given type and loads the textures if they're not loaded yet.
 	// The required info is returned as a Texture struct.
-	std::vector<std::shared_ptr<Texture>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type)
+	std::vector<std::shared_ptr<Texture> > Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type)
 	{
-		std::vector<std::shared_ptr<Texture>> textures;
+		std::vector<std::shared_ptr<Texture> > textures;
 		for (GLuint i = 0; i < mat->GetTextureCount(type); i++)
 		{
 			aiString str;

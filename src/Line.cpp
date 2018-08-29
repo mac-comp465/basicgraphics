@@ -18,7 +18,7 @@ namespace basicgraphics {
 
 		std::vector<Mesh::Vertex> cpuVertexArray;
 		std::vector<int>			 cpuIndexArray;
-		std::vector<std::shared_ptr<Texture>> textures;
+		std::vector<std::shared_ptr<Texture> > textures;
 
 		Mesh::Vertex vert;
 		vert.position = _start + radius * right;
