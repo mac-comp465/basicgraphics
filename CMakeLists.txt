@@ -1,3 +1,5 @@
+set (CMAKE_CXX_STANDARD 11)
+
 project(BasicGraphics)
 
 # Using 3.9 to get a modern version of FindOpenGL.cmake
