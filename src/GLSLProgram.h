@@ -51,6 +51,7 @@ using glm::mat4;
 using glm::mat3;
 
 #include <stdexcept>
+#include <mutex>
 
 namespace basicgraphics {
 
@@ -120,6 +121,9 @@ namespace basicgraphics {
 		void   printActiveAttribs();
 
 		const char * getTypeString(GLenum type);
+
+		// mutex to protect file access
+		static std::mutex _mutex;
 	};
 
 }

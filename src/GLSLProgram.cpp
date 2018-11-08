@@ -28,6 +28,8 @@ namespace basicgraphics {
 		};
 	}
 
+	std::mutex GLSLProgram::_mutex;
+
 	GLSLProgram::GLSLProgram() : handle(0), linked(false) {
 	}
 
@@ -105,16 +107,21 @@ namespace basicgraphics {
 			}
 		}
 
-		ifstream inFile(fileName, ios::in);
-		if (!inFile) {
-			string message = string("Unable to open: ") + fileName;
-			throw GLSLProgramException(message);
-		}
-
-		// Get file contents
 		std::stringstream code;
-		code << inFile.rdbuf();
-		inFile.close();
+		{
+			// lock mutex before accessing file
+			std::lock_guard<std::mutex> lock(_mutex);
+
+			ifstream inFile(fileName, ios::in);
+			if (!inFile) {
+				string message = string("Unable to open: ") + fileName;
+				throw GLSLProgramException(message);
+			}
+
+			// Get file contents
+			code << inFile.rdbuf();
+			inFile.close();
+		}
 
 		compileShader(code.str(), type, fileName);
 	}

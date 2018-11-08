@@ -35,12 +35,15 @@ namespace basicgraphics {
 		return true;
 	}
 
+	thread_local Assimp::Importer Model::_importer;
+	std::mutex Model::_mutex;
+
 	Model::Model(const std::string &filename, const double scale, glm::vec4 materialColor /*=glm::vec4(1.0)*/) : _materialColor(materialColor)
 	{
 		//TODO not entirely sure this is threadsafe, although assimp says the library is as long as you have separate importer objects
-		Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
+		//Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
 		// Create a logger instance for Console Output
-		Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
+		//Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
 
 		int numIndices = 0;
 		importMesh(filename, numIndices, scale);
@@ -48,9 +51,9 @@ namespace basicgraphics {
 
 	Model::Model(const std::string &fileContents, glm::vec4 materialColor /*=glm::vec4(1.0)*/) : _materialColor(materialColor)
 	{
-		Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
+		//Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
 		// Create a logger instance for Console Output
-		Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
+		//Assimp::DefaultLogger::create("", severity, aiDefaultLogStream_STDOUT);
 
 		importMeshFromString(fileContents);
 	}
@@ -58,7 +61,7 @@ namespace basicgraphics {
 	Model::~Model()
 	{
 		// Kill it after the work is done
-		Assimp::DefaultLogger::kill();
+		//Assimp::DefaultLogger::kill();
 	}
 
 	void Model::draw(GLSLProgram &shader) {
@@ -69,16 +72,22 @@ namespace basicgraphics {
 
 	void Model::importMesh(const std::string &filename, int &numIndices, const double scale/*=1.0*/)
 	{
+		/*
 		if (_importer.get() == nullptr) {
 			_importer.reset(new Assimp::Importer());
 		}
+		*/
 
-		const aiScene* scene = _importer->ReadFile(filename, aiProcess_Triangulate);
+		const aiScene* scene = nullptr;
+		{
+			std::lock_guard<std::mutex> lock(_mutex);
+			scene = _importer.ReadFile(filename, aiProcess_Triangulate);
+		}
 
 		// If the import failed, report it
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			Assimp::DefaultLogger::get()->info(_importer->GetErrorString());
+			//Assimp::DefaultLogger::get()->info(_importer.GetErrorString());
 			return;
 		}
 
@@ -90,22 +99,24 @@ namespace basicgraphics {
 
 		this->processNode(scene->mRootNode, scene, scaleMat);
 
-		_importer->FreeScene();
+		_importer.FreeScene();
 
 	}
 
 	void Model::importMeshFromString(const std::string &fileContents) {
+		/*
 		if (_importer.get() == nullptr) {
 			_importer.reset(new Assimp::Importer());
 		}
+		*/
 
 		size_t size = sizeof(unsigned char) * fileContents.size();
 
-		const aiScene* scene = _importer->ReadFileFromMemory(fileContents.c_str(), size, aiProcessPreset_TargetRealtime_Quality, ".nff");
+		const aiScene* scene = _importer.ReadFileFromMemory(fileContents.c_str(), size, aiProcessPreset_TargetRealtime_Quality, ".nff");
 		// If the import failed, report it
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			Assimp::DefaultLogger::get()->info(_importer->GetErrorString());
+			//Assimp::DefaultLogger::get()->info(_importer.GetErrorString());
 			return;
 		}
 
@@ -114,7 +125,7 @@ namespace basicgraphics {
 
 		this->processNode(scene->mRootNode, scene, scaleMat);
 
-		_importer->FreeScene();
+		_importer.FreeScene();
 	}
 
 	// Processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).

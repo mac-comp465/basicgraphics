@@ -10,6 +10,7 @@
 
 namespace basicgraphics {
 
+	std::mutex Sphere::_mutex;
 
 	Sphere::Sphere(const glm::vec3 &position, const float radius, const glm::vec4 &color) : _position(position), _radius(radius), _color(color)
 	{
@@ -22,7 +23,9 @@ namespace basicgraphics {
 	}
     
     std::shared_ptr<Model> Sphere::getModelInstance(){
-        static std::shared_ptr<Model> model(new Model("sphere.obj", 1.0, glm::vec4(1.0)));
+		// lock mutex before accessing file
+		std::lock_guard<std::mutex> lock(_mutex);
+        static thread_local std::shared_ptr<Model> model(new Model("sphere.obj", 1.0, glm::vec4(1.0)));
         return model;
     }
 

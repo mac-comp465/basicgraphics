@@ -35,6 +35,8 @@ namespace basicgraphics {
 
 		virtual void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
 
+		virtual void setColor(const glm::vec4 &color);
+
 		/*!
 		* Returns true if position is inside the box
 		*/
@@ -44,10 +46,13 @@ namespace basicgraphics {
 		std::shared_ptr<Model> _model;
 		const glm::vec3 _min;
 		const glm::vec3 _max;
-		const glm::vec4 _color;
+		glm::vec4 _color;
 		glm::mat4 _localMat;
 
 		std::shared_ptr<Model> getModelInstance();
+
+		// mutex to protect file access
+		static std::mutex _mutex;
 	};
 
 }

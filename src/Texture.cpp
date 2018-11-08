@@ -11,6 +11,8 @@
 
 namespace basicgraphics {
 
+	std::mutex Texture::_mutex;
+
 	Texture::Texture(const std::string &name, int width, int height, int depth, int numMipMapLevels, bool autoMipMap, GLenum target, GLenum internalFormat, GLenum externalFormat, GLenum dataFormat, const void* bytes[6])
 	{
 		_name = name;
@@ -252,6 +254,9 @@ namespace basicgraphics {
 		unsigned char *raw_img = (unsigned char*)malloc(size);
 		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, raw_img);
 
+		// lock mutex before accessing file
+		std::lock_guard<std::mutex> lock(_mutex);
+
 		int result = SOIL_save_image(file.c_str(), SOIL_SAVE_TYPE_BMP, _width, _height, 4, raw_img);
 
 		if (result == 0) {
@@ -358,6 +363,9 @@ namespace basicgraphics {
 		const void* bytesArray[6];
 		unsigned char* images[6];
 		for (int face = 0; face < 6; face++) {
+			// lock mutex before accessing file
+			std::lock_guard<std::mutex> lock(_mutex);
+
 			images[face] = SOIL_load_image(filenames[face].c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 			if (images[face] == NULL) {
 				assert(false && ("Unable to load texture: " + filenames[face] + "\n" + SOIL_last_result()).c_str());
@@ -478,10 +486,16 @@ namespace basicgraphics {
 	{
 	
 		int width, height, channels;
-		unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
-		if (image == NULL) {
-            std::string errormsg = SOIL_last_result();
-			assert(false && ("Unable to load texture"));
+		unsigned char* image = NULL;
+		{
+			// lock mutex before accessing file
+			std::lock_guard<std::mutex> lock(_mutex);
+
+			image = SOIL_load_image(filename.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+			if (image == NULL) {
+				std::string errormsg = SOIL_last_result();
+				assert(false && ("Unable to load texture"));
+			}
 		}
 
 		GLenum internalFormat = 0;

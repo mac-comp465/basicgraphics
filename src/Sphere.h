@@ -37,6 +37,9 @@ namespace basicgraphics {
 		const glm::vec4 _color;
         
         std::shared_ptr<Model> getModelInstance();
+
+		// mutex to protect file access
+		static std::mutex _mutex;
 	};
     
 }

@@ -10,6 +10,8 @@
 
 namespace basicgraphics {
 
+	std::mutex Box::_mutex;
+
 	Box::Box(const glm::vec3 &min, const glm::vec3 &max, const glm::vec4 &color) : _min(min), _max(max), _color(color)
 	{
 		_model = getModelInstance();
@@ -30,8 +32,15 @@ namespace basicgraphics {
 	}
 
 	std::shared_ptr<Model> Box::getModelInstance() {
-		static std::shared_ptr<Model> model(new Model("cube.obj", 1.0, glm::vec4(1.0)));
+		// lock mutex before accessing file
+		std::lock_guard<std::mutex> lock(_mutex);
+		static thread_local std::shared_ptr<Model> model(new Model("cube.obj", 1.0, glm::vec4(1.0)));
 		return model;
+	}
+
+	void Box::setColor(const glm::vec4 &color)
+	{
+		_color = color;
 	}
 
 	void Box::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix) {

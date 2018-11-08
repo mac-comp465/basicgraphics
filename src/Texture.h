@@ -40,6 +40,7 @@
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include <mutex>
 
 //#include <FreeImage/FreeImagePlus.h>
 
@@ -130,6 +131,9 @@ namespace basicgraphics {
 		int _numMipMapLevels;
 		bool _autoGenMipMaps;
 		bool _empty;
+
+		// mutex to protect file access
+		static std::mutex _mutex;
 	};
 
 }
