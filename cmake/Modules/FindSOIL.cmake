@@ -10,15 +10,15 @@ find_path(SOIL_INCLUDE_DIR
     SOIL.h
   NO_DEFAULT_PATH
   HINTS 
-    ${CMAKE_INSTALL_PREFIX}/include 
+    ${CMAKE_INSTALL_PREFIX}/include/SOIL 
 )
 if (NOT SOIL_INCLUDE_DIR)
     find_path(SOIL_INCLUDE_DIR 
         SOIL.h
       HINTS 
-        ${CMAKE_INSTALL_PREFIX}/include 
+        ${CMAKE_INSTALL_PREFIX}/include/SOIL 
         $ENV{SOIL_DIR}/include 
-        /usr/local/include
+        /usr/local/include/SOIL
     )
 endif()
 

@@ -24,13 +24,20 @@ macro(AutoBuild_use_package_SOIL YOUR_TARGET INTERFACE_PUBLIC_OR_PRIVATE)
 
             AutoBuild_download_project( 
                 ${PACKAGE_NAME}
-                URL http://www.lonesock.net/files/soil.zip
-                PATCH_COMMAND \"${CMAKE_COMMAND}\" -E copy ${PROJECT_SOURCE_DIR}/external-patches/SOIL/CMakeLists.txt <SOURCE_DIR>
+                GIT_REPOSITORY https://github.com/mac-comp465/soil.git
             )
+
+            #set (SOIL_CONFIG_OPTIONS "")
+            if (APPLE)
+                #set(SOIL_CONFIG_OPTIONS ${SOIL_CONFIG_OPTIONS}
+                #    -DCMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD="c++11" -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT} -DCMAKE_PREFIX_PATH=${STDLIB_SDK_PATH}/usr
+                #)
+            endif()
 
             AutoBuild_build_and_install_project(
                 ${PACKAGE_NAME}
                 .
+                #${SOIL_CONFIG_OPTIONS}
             )
 
             AutoBuild_find_built_package_module_mode(${PACKAGE_NAME})

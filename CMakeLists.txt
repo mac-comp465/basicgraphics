@@ -69,7 +69,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 #---------------------- Define the Target ----------------------
 
-
 add_library(${PROJECT_NAME} ${source_files} ${header_files})
 
 
@@ -78,6 +77,22 @@ add_library(${PROJECT_NAME} ${source_files} ${header_files})
 # MinVR (linked with an imported cmake target so no need to specify include dirs)
 #find_package(MinVR REQUIRED)
 #target_link_libraries(${PROJECT_NAME} PUBLIC MinVR::MinVR)
+
+if (APPLE)
+  #exec_program(xcrun ARGS "--sdk macosx --show-sdk-path" OUTPUT_VARIABLE STDLIB_SDK_PATH)
+  
+  #exec_program(xcrun ARGS "--show-sdk-path" OUTPUT_VARIABLE STDLIB_SDK_PATH)
+  #message("SDK_PATH IS ${STDLIB_SDK_PATH}")
+  #list(APPEND CMAKE_PREFIX_PATH ${STDLIB_SDK_PATH}/usr)
+  #set(CMAKE_OSX_SYSROOT ${STDLIB_SDK_PATH})
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isysroot ${STDLIB_SDK_PATH}")
+  
+  #get_filename_component(TOOLCHAIN_PATH ${CMAKE_LINKER} DIRECTORY)
+  #message(STATUS "Toolchain include path: ${TOOLCHAIN_PATH}/../include")
+  #include_directories(BEFORE SYSTEM
+  #    "${TOOLCHAIN_PATH}/../include/"
+  #)
+endif()
 
 
 # OpenGL
@@ -119,6 +134,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/glm>  # for headers when building
     $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DEST}/glm>        # for client in install mode
 )
+
 
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets COMPONENT CoreLib

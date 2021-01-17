@@ -510,7 +510,7 @@ function(AutoBuild_build_and_install_project EXT_PROJECT_NAME RELPATH_TO_CMAKELI
     message(STATUS "  Using build dir: ${BUILD_DIR}")
     message(STATUS "  Config options: ${CMAKE_CONFIG_OPTIONS}")
 
-    execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" ${SRC_DIR} ${CMAKE_CONFIG_OPTIONS} WORKING_DIRECTORY ${BUILD_DIR} OUTPUT_VARIABLE stdout ERROR_VARIABLE stderr RESULT_VARIABLE exitcode)
+    execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" ${CMAKE_CONFIG_OPTIONS} ${SRC_DIR}  WORKING_DIRECTORY ${BUILD_DIR} OUTPUT_VARIABLE stdout ERROR_VARIABLE stderr RESULT_VARIABLE exitcode)
     if(NOT "${exitcode}" STREQUAL "0")
         message(FATAL_ERROR "AutoBuild: Error generating build files for external project: ${stdout} ${stderr}")
     endif()

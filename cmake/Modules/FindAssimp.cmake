@@ -43,8 +43,12 @@ if( MSVC )
     set(MSVC_PREFIX "vc120")
   elseif( MSVC14 )
     set(MSVC_PREFIX "vc140")
+  elseif( MSVC15)
+    set(MSVC_PREFIX "vc141")
+  elseif( MSVC16 )
+    set(MSVC_PREFIX "vc142")
   else()
-    set(MSVC_PREFIX "vc150")
+    set(MSVC_PREFIX "vc142")
   endif()
   set(ASSIMP_LIBRARY_SUFFIX "-${MSVC_PREFIX}-mt" CACHE STRING "the suffix for the assimp windows library" )
 else()
@@ -73,34 +77,35 @@ if (NOT ASSIMP_LIBRARY)
     )
 endif()
 
-find_library(IRRXML_LIBRARY 
-  NAMES 
-    IrrXML.lib
-    libIrrXML.a 
-	IrrXML
-  NO_DEFAULT_PATH
-  HINTS 
-    ${CMAKE_INSTALL_PREFIX}/lib 
-)
-if (NOT IRRXML_LIBRARY)
-    find_library(IRRXML_LIBRARY 
-      NAMES 
-		IrrXML.lib
-        libIrrXML.a 
-		IrrXML
-      HINTS 
-        ${CMAKE_INSTALL_PREFIX}/lib 
-        $ENV{ASSIMP_DIR}/lib 
-        /usr/local/lib
-    )
-endif()
+#find_library(IRRXML_LIBRARY 
+#  NAMES 
+#    IrrXML.lib
+#    libIrrXML.a 
+#	IrrXML
+#  NO_DEFAULT_PATH
+#  HINTS 
+#    ${CMAKE_INSTALL_PREFIX}/lib 
+#)
+#if (NOT IRRXML_LIBRARY)
+#    find_library(IRRXML_LIBRARY 
+#      NAMES 
+#		IrrXML.lib
+#        libIrrXML.a 
+#		IrrXML
+#      HINTS 
+#        ${CMAKE_INSTALL_PREFIX}/lib 
+#        $ENV{ASSIMP_DIR}/lib 
+#        /usr/local/lib
+#    )
+#endif()
 
-find_package(ZLIB QUIET)
-if (NOT ZLIB_FOUND)
-	if (MSVC)
+#find_package(ZLIB QUIET)
+#if (NOT ZLIB_FOUND)
+#	if (MSVC)
 		find_library(ZLIB_LIBRARY 
-		  NAMES 
-			zlibstaticd.lib
+		  NAMES
+      libzlibstatic.a
+			libzlibstaticd.lib
 		  NO_DEFAULT_PATH
 		  HINTS 
 			${CMAKE_INSTALL_PREFIX}/lib 
@@ -108,7 +113,8 @@ if (NOT ZLIB_FOUND)
 		if (NOT ZLIB_LIBRARY)
 			find_library(ZLIB_LIBRARY 
 			  NAMES 
-				zlibstaticd.lib
+        libzlibstatic.a
+				libzlibstaticd.lib
 			  HINTS 
 				${CMAKE_INSTALL_PREFIX}/lib 
 				$ENV{ASSIMP_DIR}/lib 
@@ -116,10 +122,11 @@ if (NOT ZLIB_FOUND)
 			)
 		endif()
 		set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})
-	endif()
-endif()
+#	endif()
+#endif()
 
-set(ASSIMP_LIBRARIES ${ASSIMP_LIBRARY} ${IRRXML_LIBRARY} ${ZLIB_LIBRARIES})
+#set(ASSIMP_LIBRARIES ${ASSIMP_LIBRARY} ${IRRXML_LIBRARY} ${ZLIB_LIBRARIES})
+set(ASSIMP_LIBRARIES ${ASSIMP_LIBRARY} ${ZLIB_LIBRARIES})
 set( ASSIMP_INCLUDE_DIRS "${ASSIMP_INCLUDE_DIR}")
 
 include(FindPackageHandleStandardArgs)
@@ -128,7 +135,7 @@ find_package_handle_standard_args(
     DEFAULT_MSG
     ASSIMP_INCLUDE_DIR
     ASSIMP_LIBRARY 
-    IRRXML_LIBRARY 
+#    IRRXML_LIBRARY 
     ASSIMP_LIBRARIES
 	ZLIB_LIBRARY
 )
@@ -136,7 +143,7 @@ find_package_handle_standard_args(
 mark_as_advanced(
     ASSIMP_INCLUDE_DIR
 	ASSIMP_LIBRARY 
-    IRRXML_LIBRARY 
+#    IRRXML_LIBRARY 
 	ZLIB_LIBRARY
     ASSIMP_LIBRARIES	
 )
