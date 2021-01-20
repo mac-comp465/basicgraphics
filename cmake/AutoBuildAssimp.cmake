@@ -31,7 +31,7 @@ macro(AutoBuild_use_package_Assimp YOUR_TARGET INTERFACE_PUBLIC_OR_PRIVATE)
 			if (APPLE)
 				list(APPEND ASSIMP_CONFIG_OPTIONS -DCMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD="c++11"
 				)
-                message("Assimp config options: ${ASSIMP_CONFIG_OPTIONS}")
+                message(status "Assimp config options: ${ASSIMP_CONFIG_OPTIONS}")
                 #set(ASSIMP_CONFIG_OPTIONS ${ASSIMP_CONFIG_OPTIONS}
                 #    -DCMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD="c++11" -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT} -DCMAKE_PREFIX_PATH=${STDLIB_SDK_PATH}/usr
                 #)
