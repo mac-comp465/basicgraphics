@@ -664,6 +664,12 @@ namespace basicgraphics {
 			return GL_FLOAT;
 		case GL_RGBA32F:
 			return GL_FLOAT;
+        case GL_DEPTH_COMPONENT:
+        case GL_DEPTH_COMPONENT24:
+        case GL_DEPTH_COMPONENT32:
+            return GL_UNSIGNED_INT;
+        case GL_DEPTH_COMPONENT16:
+            return GL_UNSIGNED_SHORT;
 		case GL_DEPTH_COMPONENT32F:
 			return GL_FLOAT;
 		default:
@@ -697,6 +703,13 @@ namespace basicgraphics {
 		case GL_RGBA8:
 		case GL_RGBA32F:
 			return GL_RGBA;
+        
+        case GL_DEPTH_COMPONENT:
+        case GL_DEPTH_COMPONENT16:
+        case GL_DEPTH_COMPONENT24:
+        case GL_DEPTH_COMPONENT32:
+        case GL_DEPTH_COMPONENT32F:
+            return GL_DEPTH_COMPONENT;
 
 		default:
 			assert(false && "Unsupported InternalType. Cannot determine the external format");
