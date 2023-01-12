@@ -92,6 +92,7 @@ if (APPLE)
   #include_directories(BEFORE SYSTEM
   #    "${TOOLCHAIN_PATH}/../include/"
   #)
+  add_definitions( -DGL_SILENCE_DEPRECATION )
 endif()
 
 
