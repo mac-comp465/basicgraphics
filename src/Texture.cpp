@@ -661,6 +661,7 @@ namespace basicgraphics {
 		case GL_RGBA8:
 			return GL_UNSIGNED_BYTE;
 		case GL_RGB32F:
+        case GL_R32F:
 			return GL_FLOAT;
 		case GL_RGBA32F:
 			return GL_FLOAT;
@@ -694,7 +695,10 @@ namespace basicgraphics {
 			return GL_LUMINANCE_ALPHA;
          
         */
-		case GL_RGB:
+        case GL_RED:
+        case GL_R32F:
+            return GL_RED;
+        case GL_RGB:
 		case GL_RGB8:
 		case GL_RGB32F:
 			return GL_RGB;
