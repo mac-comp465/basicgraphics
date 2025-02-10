@@ -24,6 +24,7 @@ macro(AutoBuild_use_package_Assimp YOUR_TARGET INTERFACE_PUBLIC_OR_PRIVATE)
             AutoBuild_download_project( 
                 ${PACKAGE_NAME}
                 GIT_REPOSITORY https://github.com/assimp/assimp.git
+                GIT_TAG v5.4.3
             )
 
             set(ASSIMP_CONFIG_OPTIONS -DBUILD_SHARED_LIBS=OFF —DASSIMP_BUILD_TESTS=OFF —DASSIMP_BUILD_ASSIMP_TOOLS=OFF -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE} -DASSIMP_INSTALL_PDB=OFF -DASSIMP_BUILD_ZLIB=ON -DASSIMP_WARNINGS_AS_ERRORS=OFF

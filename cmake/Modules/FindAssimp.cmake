@@ -164,7 +164,7 @@ set( ASSIMP_INCLUDE_DIRS "${ASSIMP_INCLUDE_DIR}")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-    ASSIMP
+    Assimp
     DEFAULT_MSG
     ASSIMP_INCLUDE_DIR
     ASSIMP_OPT_LIBRARY

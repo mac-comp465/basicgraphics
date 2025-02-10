@@ -1,9 +1,9 @@
 set (CMAKE_CXX_STANDARD 11)
 
-project(BasicGraphics)
-
 # Using 3.9 to get a modern version of FindOpenGL.cmake
-cmake_minimum_required (VERSION 3.9) 
+cmake_minimum_required (VERSION 3.10) 
+
+project(BasicGraphics)
 
 # !!!!!!!!!!!!! EDIT THE FOLLOWING LINE AS NEEDED !!!!!!!!!!!!! 
 list(APPEND CMAKE_PREFIX_PATH ../minvr/build/install)
