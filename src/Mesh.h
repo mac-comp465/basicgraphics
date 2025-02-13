@@ -23,7 +23,7 @@
 
 // OpenGL Headers
 #if defined(WIN32)
-#define NOMINMAX
+//#define NOMINMAX
 #include <windows.h>
 #include <GL/gl.h>
 #elif defined(__APPLE__)
